@@ -23,12 +23,10 @@ const DESCRIPTIONS = ['Замечательное', 'Уютное', 'Изуми�
 const PHOTOS = ['http://o0.github.io/assets/images/tokyo/hotel1.jpg', 'http://o0.github.io/assets/images/tokyo/hotel2.jpg', 'http://o0.github.io/assets/images/tokyo/hotel3.jpg'];
 const SIMILAR_ADVERTISEMENT_COUNT = 10;
 
-// for title, type, checkin, checkout, description keys:
 const getRandomArrayElement = function (array) {
   return array[getRandomInteger(0, array.length - 1)];
 };
 
-// for photos key:
 const getRandomArray = function (array) {
   const randomArrayLength = getRandomInteger(1, 10);
   const newArray = [];
@@ -38,7 +36,6 @@ const getRandomArray = function (array) {
   return newArray;
 };
 
-// for features key:
 const getRandomNoRepeatArray = function (array) {
   const randomArrayLength = getRandomInteger(0, array.length - 1);
   const newArray = [];
