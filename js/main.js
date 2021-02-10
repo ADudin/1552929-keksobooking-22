@@ -1,4 +1,3 @@
-/* eslint-disable */
 const getRandomInteger = function (min, max) {
   if (min >= 0 && max > min) {
     min = Math.ceil(min);
@@ -14,4 +13,3 @@ const getRandomFraction = function (min, max, fractionalSymbolsQuantity) {
   }
   return 'Invalid range!';
 };
-/* eslint-enable */
