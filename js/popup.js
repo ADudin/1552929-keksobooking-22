@@ -4,6 +4,8 @@ const advertisementsList = document.querySelector('#map-canvas');
 const similarAdvertisementTemplate = document.querySelector('#card').content.querySelector('.popup');
 const similarAdvertisements = createSimilarAdvertisements;
 const similarListFragment = document.createDocumentFragment();
+const featuresFragment = document.createDocumentFragment();
+const photosFragment = document.createDocumentFragment();
 
 const getRoomType = (type) => {
   if (type === 'palace') {
@@ -48,6 +50,49 @@ const hideEmptyElement = (value, element) => {
   }
 };
 
+const getPhotosFragment = (array) => {
+  for (let i = 0; i < array.length; i++) {
+    const photosElement = document.createElement('img');
+    photosElement.classList.add('popup__photo');
+    photosElement.src = array[i];
+    photosElement.width = '45';
+    photosElement.height = '40';
+    photosElement.alt = 'Фотография жилья';
+
+    photosFragment.appendChild(photosElement);
+  }
+  return photosFragment;
+};
+
+const getFeaturesFragment = (array) => {
+  for (let i = 0; i < array.length; i++) {
+    const featuresElement = document.createElement('li');
+    featuresElement.classList.add('popup__feature');
+
+    if (array[i] === 'wifi') {
+      featuresElement.classList.add('popup__feature--wifi');
+    }
+    if (array[i] === 'dishwasher') {
+      featuresElement.classList.add('popup__feature--dishwasher');
+    }
+    if (array[i] === 'parking') {
+      featuresElement.classList.add('popup__feature--parking');
+    }
+    if (array[i] === 'washer') {
+      featuresElement.classList.add('popup__feature--washer');
+    }
+    if (array[i] === 'elevator') {
+      featuresElement.classList.add('popup__feature--elevator');
+    }
+    if (array[i] === 'conditioner') {
+      featuresElement.classList.add('popup__feature--conditioner');
+    }
+
+    featuresFragment.appendChild(featuresElement);
+  }
+  return featuresFragment;
+};
+
 similarAdvertisements.forEach(({author, offer}) => {
 
   const advertisementElement = similarAdvertisementTemplate.cloneNode(true);
@@ -65,9 +110,6 @@ similarAdvertisements.forEach(({author, offer}) => {
   removeAllChilds(photosList);
   removeAllChilds(featuresList);
 
-  const photosFragment = document.createDocumentFragment();
-  const featuresFragment = document.createDocumentFragment();
-
   avatar.src = author.avatar;
   title.textContent = offer.title;
   address.textContent = offer.address;
@@ -77,43 +119,10 @@ similarAdvertisements.forEach(({author, offer}) => {
   time.textContent = 'Заезд после ' + offer.checkin + ', выезд до ' + offer.checkout;
   description.textContent = offer.description;
 
-  for (let i = 0; i < offer.photos.length; i++) {
-    const photosElement = document.createElement('img');
-    photosElement.classList.add('popup__photo');
-    photosElement.src = offer.photos[i];
-    photosElement.width = '45';
-    photosElement.height = '40';
-    photosElement.alt = 'Фотография жилья';
-
-    photosFragment.appendChild(photosElement);
-  }
+  getPhotosFragment(offer.photos);
   photosList.appendChild(photosFragment);
 
-  for (let i = 0; i < offer.features.length; i++) {
-    const featuresElement = document.createElement('li');
-    featuresElement.classList.add('popup__feature');
-
-    if (offer.features[i] === 'wifi') {
-      featuresElement.classList.add('popup__feature--wifi');
-    }
-    if (offer.features[i] === 'dishwasher') {
-      featuresElement.classList.add('popup__feature--dishwasher');
-    }
-    if (offer.features[i] === 'parking') {
-      featuresElement.classList.add('popup__feature--parking');
-    }
-    if (offer.features[i] === 'washer') {
-      featuresElement.classList.add('popup__feature--washer');
-    }
-    if (offer.features[i] === 'elevator') {
-      featuresElement.classList.add('popup__feature--elevator');
-    }
-    if (offer.features[i] === 'conditioner') {
-      featuresElement.classList.add('popup__feature--conditioner');
-    }
-
-    featuresFragment.appendChild(featuresElement);
-  }
+  getFeaturesFragment(offer.features);
   featuresList.appendChild(featuresFragment);
 
   hideEmptyElement(author.avatar, avatar);
