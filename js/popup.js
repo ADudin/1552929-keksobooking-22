@@ -5,9 +5,52 @@ const similarAdvertisementTemplate = document.querySelector('#card').content.que
 const similarAdvertisements = createSimilarAdvertisements;
 const similarListFragment = document.createDocumentFragment();
 
-similarAdvertisements.forEach(({author, offer}) => {
-  const advertisementElement = similarAdvertisementTemplate.cloneNode(true);
+const getRoomType = (type) => {
+  if (type === 'palace') {
+    return 'Дворец';
+  }
+  if (type === 'flat') {
+    return 'Квартира';
+  }
+  if (type === 'house') {
+    return 'Дом';
+  }
+  return 'Бунгало';
+};
 
+const getRoomsSignature = (number) => {
+  if (number % 10 === 1) {
+    return ' комната';
+  }
+  if (number % 10 === 2 || number % 10 === 3 || number % 10 === 4) {
+    return ' комнаты';
+  }
+  return ' комнат';
+};
+
+const getGuestsSignature = (number) => {
+  if (number % 10 === 1) {
+    return ' гостя';
+  }
+  return ' гостей';
+};
+
+const removeAllChilds = (list) => {
+  for (let i = list.children.length - 1; i >= 0; i--) {
+    const child = list.children[i];
+    child.parentElement.removeChild(child);
+  }
+};
+
+const hideEmptyElement = (value, element) => {
+  if (value === null) {
+    element.classList.add('visually-hidden');
+  }
+};
+
+similarAdvertisements.forEach(({author, offer}) => {
+
+  const advertisementElement = similarAdvertisementTemplate.cloneNode(true);
   const avatar = advertisementElement.querySelector('.popup__avatar');
   const title = advertisementElement.querySelector('.popup__title');
   const address = advertisementElement.querySelector('.popup__text--address');
@@ -19,42 +62,11 @@ similarAdvertisements.forEach(({author, offer}) => {
   const photosList = advertisementElement.querySelector('.popup__photos');
   const featuresList = advertisementElement.querySelector('.popup__features');
 
-  const getRoomType = (type) => {
-    if (type === 'palace') {
-      return 'Дворец';
-    }
-    if (type === 'flat') {
-      return 'Квартира';
-    }
-    if (type === 'house') {
-      return 'Дом';
-    }
-    return 'Бунгало';
-  };
+  removeAllChilds(photosList);
+  removeAllChilds(featuresList);
 
-  const getRoomsSignature = (number) => {
-    if (number % 10 === 1) {
-      return ' комната';
-    }
-    if (number % 10 === 2 || number % 10 === 3 || number % 10 === 4) {
-      return ' комнаты';
-    }
-    return ' комнат';
-  };
-
-  const getGuestsSignature = (number) => {
-    if (number % 10 === 1) {
-      return ' гостя';
-    }
-    return ' гостей';
-  };
-
-  const removeAllChilds = (list) => {
-    for (let i = list.children.length - 1; i >= 0; i--) {
-      const child = list.children[i];
-      child.parentElement.removeChild(child);
-    }
-  };
+  const photosFragment = document.createDocumentFragment();
+  const featuresFragment = document.createDocumentFragment();
 
   avatar.src = author.avatar;
   title.textContent = offer.title;
@@ -64,9 +76,6 @@ similarAdvertisements.forEach(({author, offer}) => {
   capacity.textContent = offer.rooms + getRoomsSignature(offer.rooms) + ' для ' + offer.guests + getGuestsSignature(offer.guests);
   time.textContent = 'Заезд после ' + offer.checkin + ', выезд до ' + offer.checkout;
   description.textContent = offer.description;
-
-  removeAllChilds(photosList);
-  const photosFragment = document.createDocumentFragment();
 
   for (let i = 0; i < offer.photos.length; i++) {
     const photosElement = document.createElement('img');
@@ -79,10 +88,6 @@ similarAdvertisements.forEach(({author, offer}) => {
     photosFragment.appendChild(photosElement);
   }
   photosList.appendChild(photosFragment);
-
-
-  removeAllChilds(featuresList);
-  const featuresFragment = document.createDocumentFragment();
 
   for (let i = 0; i < offer.features.length; i++) {
     const featuresElement = document.createElement('li');
@@ -110,12 +115,6 @@ similarAdvertisements.forEach(({author, offer}) => {
     featuresFragment.appendChild(featuresElement);
   }
   featuresList.appendChild(featuresFragment);
-
-  const hideEmptyElement = (value, element) => {
-    if (value === null) {
-      element.classList.add('visually-hidden');
-    }
-  };
 
   hideEmptyElement(author.avatar, avatar);
   hideEmptyElement(offer.title, title);
