@@ -1,9 +1,8 @@
 import {createSimilarAdvertisements} from './data.js';
 
-const advertisementsList = document.querySelector('#map-canvas');
 const similarAdvertisementTemplate = document.querySelector('#card').content.querySelector('.popup');
 const similarAdvertisements = createSimilarAdvertisements;
-const similarListFragment = document.createDocumentFragment();
+const popupsArray = [];
 const featuresFragment = document.createDocumentFragment();
 const photosFragment = document.createDocumentFragment();
 
@@ -93,7 +92,7 @@ const getFeaturesFragment = (array) => {
   return featuresFragment;
 };
 
-similarAdvertisements.forEach(({author, offer}) => {
+similarAdvertisements.forEach(({author, offer, location}) => {
 
   const advertisementElement = similarAdvertisementTemplate.cloneNode(true);
   const avatar = advertisementElement.querySelector('.popup__avatar');
@@ -112,7 +111,7 @@ similarAdvertisements.forEach(({author, offer}) => {
 
   avatar.src = author.avatar;
   title.textContent = offer.title;
-  address.textContent = offer.address;
+  address.textContent = location.latitude + ',' + location.longitude;
   price.textContent = offer.price + ' ₽/ночь';
   type.textContent = getRoomType(offer.type);
   capacity.textContent = offer.rooms + getRoomsSignature(offer.rooms) + ' для ' + offer.guests + getGuestsSignature(offer.guests);
@@ -138,7 +137,7 @@ similarAdvertisements.forEach(({author, offer}) => {
   hideEmptyElement(photosList.children, photosList);
   hideEmptyElement(featuresList.children, featuresList);
 
-  similarListFragment.appendChild(advertisementElement);
+  popupsArray.push(advertisementElement);
 });
 
-advertisementsList.appendChild(similarListFragment);
+export {popupsArray};
