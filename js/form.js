@@ -1,7 +1,10 @@
-const type = document.querySelector('#type');
-const price = document.querySelector('#price');
-const timeIn = document.querySelector('#timein');
-const timeOut = document.querySelector('#timeout');
+import {sendData} from './fetch.js';
+
+const userForm = document.querySelector('.ad-form');
+const type = userForm.querySelector('#type');
+const price = userForm.querySelector('#price');
+const timeIn = userForm.querySelector('#timein');
+const timeOut = userForm.querySelector('#timeout');
 
 type.addEventListener('change', () => {
   switch (type.value) {
@@ -51,3 +54,16 @@ timeOut.addEventListener('change', () => {
       break;
   }
 });
+
+const setFormSubmit = (onSuccess) => {
+  userForm.addEventListener('submit', (evt) => {
+    evt.preventDefault();
+
+    sendData(
+      () => onSuccess(),
+      new FormData(evt.target),
+    );
+  });
+};
+
+export {setFormSubmit};
