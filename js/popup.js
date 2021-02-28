@@ -1,8 +1,6 @@
-import {createSimilarAdvertisements} from './data.js';
-
+// import {createSimilarAdvertisements} from './data.js';
+// const similarAdvertisements = createSimilarAdvertisements;
 const similarAdvertisementTemplate = document.querySelector('#card').content.querySelector('.popup');
-const similarAdvertisements = createSimilarAdvertisements;
-const popupsArray = [];
 const featuresFragment = document.createDocumentFragment();
 const photosFragment = document.createDocumentFragment();
 
@@ -92,7 +90,8 @@ const getFeaturesFragment = (array) => {
   return featuresFragment;
 };
 
-similarAdvertisements.forEach(({author, offer, location}) => {
+const renderAdvertisements = (author, offer, location) => {
+  const advertisementFragment = document.createDocumentFragment();
 
   const advertisementElement = similarAdvertisementTemplate.cloneNode(true);
   const avatar = advertisementElement.querySelector('.popup__avatar');
@@ -111,16 +110,14 @@ similarAdvertisements.forEach(({author, offer, location}) => {
 
   avatar.src = author.avatar;
   title.textContent = offer.title;
-  address.textContent = location.latitude + ',' + location.longitude;
+  address.textContent = location.lat.toFixed(5) + ',' + location.lng.toFixed(5);
   price.textContent = offer.price + ' ₽/ночь';
   type.textContent = getRoomType(offer.type);
   capacity.textContent = offer.rooms + getRoomsSignature(offer.rooms) + ' для ' + offer.guests + getGuestsSignature(offer.guests);
   time.textContent = 'Заезд после ' + offer.checkin + ', выезд до ' + offer.checkout;
   description.textContent = offer.description;
-
   getPhotosFragment(offer.photos);
   photosList.appendChild(photosFragment);
-
   getFeaturesFragment(offer.features);
   featuresList.appendChild(featuresFragment);
 
@@ -137,7 +134,8 @@ similarAdvertisements.forEach(({author, offer, location}) => {
   hideEmptyElement(photosList.children, photosList);
   hideEmptyElement(featuresList.children, featuresList);
 
-  popupsArray.push(advertisementElement);
-});
+  advertisementFragment.appendChild(advertisementElement);
 
-export {popupsArray};
+  return advertisementFragment;
+};
+export {renderAdvertisements};
