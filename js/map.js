@@ -94,4 +94,4 @@ const getPoints = (data) => {
       )
   });
 };
-export {getPoints};
+export {getPoints, mainPinMarker, addressField};

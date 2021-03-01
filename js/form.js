@@ -1,4 +1,5 @@
 import {sendData} from './fetch.js';
+import {mainPinMarker, addressField} from './map.js';
 
 const userForm = document.querySelector('.ad-form');
 const type = userForm.querySelector('#type');
@@ -55,6 +56,20 @@ timeOut.addEventListener('change', () => {
   }
 });
 
+const resetFormData = () => {
+  userForm.reset();
+  mainPinMarker.setLatLng({
+    lat: 35.68170,
+    lng: 139.75388,
+  });
+  addressField.value = '35.68170, 139.75388';
+};
+
+userForm.addEventListener('reset', (evt) => {
+  evt.preventDefault();
+  resetFormData();
+});
+
 const setFormSubmit = (onSuccess) => {
   userForm.addEventListener('submit', (evt) => {
     evt.preventDefault();
@@ -66,4 +81,4 @@ const setFormSubmit = (onSuccess) => {
   });
 };
 
-export {setFormSubmit};
+export {setFormSubmit, resetFormData};
