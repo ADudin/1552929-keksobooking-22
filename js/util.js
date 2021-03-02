@@ -37,4 +37,8 @@ const showAlert = (message) => {
   }, ALERT_SHOW_TIME);
 };
 
-export {getRandomInteger, getRandomFraction, showAlert};
+const isEscEvent = (evt) => {
+  return evt.key === ('Escape' || 'Esc');
+};
+
+export {getRandomInteger, getRandomFraction, showAlert, isEscEvent};

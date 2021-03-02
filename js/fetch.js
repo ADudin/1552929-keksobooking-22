@@ -1,7 +1,10 @@
 import {getPoints} from './map.js';
 import {showAlert} from './util.js';
+import {renderMessage} from './popup.js';
 
 const ADVERTISEMENT_COUNT = 10;
+const successTemplate = document.querySelector('#success').content.querySelector('.success');
+const errorTemplate = document.querySelector('#error').content.querySelector('.error');
 
 const createFetch = (onSuccess) => {
   return fetch('https://22.javascript.pages.academy/keksobooking/data',
@@ -40,11 +43,12 @@ const sendData = (onSuccess, body) => {
   ).then((response) => {
     if (response.ok) {
       onSuccess();
+      renderMessage(successTemplate);
     }
-    showAlert('Не удалось отправить данные формы на сервер');
+    renderMessage(errorTemplate);
   })
     .catch(() => {
-      showAlert('Не удалось отправить данные формы на сервер');
+      renderMessage(errorTemplate);
     });
 };
 

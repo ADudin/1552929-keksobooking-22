@@ -1,8 +1,10 @@
-// import {createSimilarAdvertisements} from './data.js';
-// const similarAdvertisements = createSimilarAdvertisements;
+import {isEscEvent} from './util.js';
+
 const similarAdvertisementTemplate = document.querySelector('#card').content.querySelector('.popup');
 const featuresFragment = document.createDocumentFragment();
 const photosFragment = document.createDocumentFragment();
+
+const mainContent = document.querySelector('main');
 
 const getRoomType = (type) => {
   if (type === 'palace') {
@@ -138,4 +140,25 @@ const renderAdvertisements = (author, offer, location) => {
 
   return advertisementFragment;
 };
-export {renderAdvertisements};
+
+const renderMessage = (template) => {
+  const message = template.cloneNode(true);
+  mainContent.appendChild(message);
+  const escHandler = (evt) => {
+    if (isEscEvent(evt)) {
+      evt.preventDefault();
+      mainContent.removeChild(message);
+    }
+    document.removeEventListener('keydown', escHandler);
+    document.removeEventListener('click', clickHandler);
+  };
+  const clickHandler = () => {
+    mainContent.removeChild(message);
+    document.removeEventListener('click', clickHandler);
+    document.removeEventListener('keydown', escHandler);
+  };
+
+  document.addEventListener('keydown', escHandler);
+  document.addEventListener('click', clickHandler);
+};
+export {renderAdvertisements, renderMessage};
