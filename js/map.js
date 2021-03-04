@@ -91,7 +91,7 @@ const getPoints = (data) => {
         {
           keepInView: true,
         },
-      )
+      );
   });
 };
 export {getPoints, mainPinMarker, addressField};

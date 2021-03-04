@@ -93,7 +93,6 @@ const getFeaturesFragment = (array) => {
 };
 
 const renderAdvertisements = (author, offer, location) => {
-  const advertisementFragment = document.createDocumentFragment();
 
   const advertisementElement = similarAdvertisementTemplate.cloneNode(true);
   const avatar = advertisementElement.querySelector('.popup__avatar');
@@ -136,29 +135,27 @@ const renderAdvertisements = (author, offer, location) => {
   hideEmptyElement(photosList.children, photosList);
   hideEmptyElement(featuresList.children, featuresList);
 
-  advertisementFragment.appendChild(advertisementElement);
-
-  return advertisementFragment;
+  return advertisementElement;
 };
 
 const renderMessage = (template) => {
   const message = template.cloneNode(true);
   mainContent.appendChild(message);
-  const escHandler = (evt) => {
-    if (isEscEvent(evt)) {
-      evt.preventDefault();
-      mainContent.removeChild(message);
-    }
-    document.removeEventListener('keydown', escHandler);
-    document.removeEventListener('click', clickHandler);
-  };
-  const clickHandler = () => {
+
+  const closeMessage = () => {
     mainContent.removeChild(message);
-    document.removeEventListener('click', clickHandler);
-    document.removeEventListener('keydown', escHandler);
+    document.removeEventListener('keydown', onEscKeydown);
+    document.removeEventListener('click', closeMessage);
   };
 
-  document.addEventListener('keydown', escHandler);
-  document.addEventListener('click', clickHandler);
+  const onEscKeydown = (evt) => {
+    if (isEscEvent(evt)) {
+      evt.preventDefault();
+      closeMessage();
+    }
+  };
+
+  document.addEventListener('keydown', onEscKeydown);
+  document.addEventListener('click', closeMessage);
 };
 export {renderAdvertisements, renderMessage};
