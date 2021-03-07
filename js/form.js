@@ -1,10 +1,14 @@
-const type = document.querySelector('#type');
-const price = document.querySelector('#price');
-const timeIn = document.querySelector('#timein');
-const timeOut = document.querySelector('#timeout');
-const title = document.querySelector('#title');
-const roomNumber = document.querySelector('#room_number');
-const capacity = document.querySelector('#capacity');
+import {sendData} from './fetch.js';
+import {mainPinMarker, addressField} from './map.js';
+
+const userForm = document.querySelector('.ad-form');
+const title = userForm.querySelector('#title');
+const roomNumber = userForm.querySelector('#room_number');
+const capacity = userForm.querySelector('#capacity');
+const type = userForm.querySelector('#type');
+const price = userForm.querySelector('#price');
+const timeIn = userForm.querySelector('#timein');
+const timeOut = userForm.querySelector('#timeout');
 
 type.addEventListener('change', () => {
   switch (type.value) {
@@ -85,3 +89,30 @@ const synchroniseRoomCapacity = () => {
 
 roomNumber.addEventListener('change', synchroniseRoomCapacity);
 capacity.addEventListener('change', synchroniseRoomCapacity);
+
+const resetFormData = () => {
+  userForm.reset();
+  mainPinMarker.setLatLng({
+    lat: 35.68170,
+    lng: 139.75388,
+  });
+  addressField.value = '35.68170, 139.75388';
+};
+
+userForm.addEventListener('reset', (evt) => {
+  evt.preventDefault();
+  resetFormData();
+});
+
+const setFormSubmit = (onSuccess) => {
+  userForm.addEventListener('submit', (evt) => {
+    evt.preventDefault();
+
+    sendData(
+      () => onSuccess(),
+      new FormData(evt.target),
+    );
+  });
+};
+
+export {setFormSubmit, resetFormData};
