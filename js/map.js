@@ -1,7 +1,6 @@
-import {createSimilarAdvertisements} from './data.js';
-import {popupsArray} from './popup.js';
 
-const addresses = createSimilarAdvertisements;
+import {renderAdvertisements} from './popup.js';
+
 const adForm = document.querySelector('.ad-form');
 const mapFilters = document.querySelector('.map__filters');
 const addressField = document.querySelector('#address');
@@ -73,24 +72,26 @@ mainPinMarker.on('moveend', (evt) => {
   addressField.value = evt.target.getLatLng().lat.toFixed(5) + ', ' + evt.target.getLatLng().lng.toFixed(5);
 });
 
-let popupIndex = 0;
+const getPoints = (data) => {
 
-addresses.forEach(({location}) => {
-  const marker = L.marker(
-    {
-      lat: location.latitude,
-      lng: location.longitude,
-    },
-    {
-      icon: pinIcon,
-    },
-  );
-  marker
-    .addTo(map)
-    .bindPopup(popupsArray[popupIndex],
+  data.forEach((advertisement) => {
+    const marker = L.marker(
       {
-        keepInView: true,
+        lat: advertisement.location.lat,
+        lng: advertisement.location.lng,
+      },
+      {
+        icon: pinIcon,
       },
     );
-  popupIndex = popupIndex + 1;
-});
+    marker
+      .addTo(map)
+      .bindPopup(
+        renderAdvertisements(advertisement.author, advertisement.offer, advertisement.location),
+        {
+          keepInView: true,
+        },
+      );
+  });
+};
+export {getPoints, mainPinMarker, addressField};

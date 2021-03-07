@@ -14,4 +14,8 @@ const getRandomFraction = (min, max, fractionalSymbolsQuantity) => {
   return 'Invalid range!';
 };
 
-export {getRandomInteger, getRandomFraction};
+const isEscEvent = (evt) => {
+  return evt.key === ('Escape' || 'Esc');
+};
+
+export {getRandomInteger, getRandomFraction, isEscEvent};
