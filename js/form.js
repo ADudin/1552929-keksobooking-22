@@ -56,12 +56,11 @@ timeOut.addEventListener('change', () => {
 });
 
 title.addEventListener('input', () => {
-  const valueLength = title.length;
-  if (valueLength < title.minlength) {
-    title.setCustomValidity('Ещё '+ (valueLength - title.minlength) + ' символов');
+  if (title.length < title.minlength) {
+    title.setCustomValidity('Ещё '+ (title.length - title.minlength) + ' символов');
   }
-  else if (valueLength > title.maxlength) {
-    title.setCustomValidity('Удалите лишние ' + (title.maxlength - valueLength) + ' символов');
+  else if (title.length > title.maxlength) {
+    title.setCustomValidity('Удалите лишние ' + (title.maxlength - title.length) + ' символов');
   }
   else {
     title.setCustomValidity('');
