@@ -1,6 +1,5 @@
-import {getPoints} from './map.js';
+import {getPoints, mapFilters} from './map.js';
 
-const mapFilters = document.querySelector('.map__filters');
 const housingType = mapFilters.querySelector('#housing-type');
 
 const typeFilter = (advertisements) => {
@@ -10,7 +9,6 @@ const typeFilter = (advertisements) => {
       return getPoints(sameHousingTypeAdvertisements);
     }
     sameHousingTypeAdvertisements = advertisements.filter(advertisement => advertisement.offer.type === housingType.value);
-    console.log(sameHousingTypeAdvertisements);
     return getPoints(sameHousingTypeAdvertisements);
   });
 };

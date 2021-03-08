@@ -1,4 +1,4 @@
-import {getPoints} from './map.js';
+import {getPoints, mapFilters, disableForm} from './map.js';
 import {renderMessage} from './popup.js';
 import {typeFilter} from './filter.js';
 
@@ -39,12 +39,14 @@ const createFetch = (onSuccess) => {
         return response.json();
       }
       showAlert('Не удалось получить данные с сервера');
+      disableForm(mapFilters);
     })
     .then((data) => {
       onSuccess(data);
     })
     .catch(() => {
       showAlert('Не удалось получить данные с сервера');
+      disableForm(mapFilters);
     });
 }
 

@@ -98,4 +98,4 @@ const getPoints = (data) => {
   });
   pointsLayer.addTo(map);
 };
-export {getPoints, mainPinMarker, addressField};
+export {getPoints, mainPinMarker, addressField, mapFilters, disableForm};
