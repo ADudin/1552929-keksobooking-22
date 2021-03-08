@@ -1,7 +1,7 @@
 import {getPoints} from './map.js';
 import {renderMessage} from './popup.js';
+import {typeFilter} from './filter.js';
 
-const ADVERTISEMENT_COUNT = 10;
 const successTemplate = document.querySelector('#success').content.querySelector('.success');
 const errorTemplate = document.querySelector('#error').content.querySelector('.error');
 const ALERT_SHOW_TIME = 10000;
@@ -41,7 +41,7 @@ const createFetch = (onSuccess) => {
       showAlert('Не удалось получить данные с сервера');
     })
     .then((data) => {
-      onSuccess(data.slice(0, ADVERTISEMENT_COUNT));
+      onSuccess(data);
     })
     .catch(() => {
       showAlert('Не удалось получить данные с сервера');
@@ -51,6 +51,7 @@ const createFetch = (onSuccess) => {
 const createAdvertisements = () => createFetch(
   (advertisements) => {
     getPoints(advertisements);
+    typeFilter(advertisements);
   },
 );
 

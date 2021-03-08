@@ -92,7 +92,7 @@ const getFeaturesFragment = (array) => {
   return featuresFragment;
 };
 
-const renderAdvertisements = (author, offer, location) => {
+const renderAdvertisements = (advertisement) => {
 
   const advertisementElement = similarAdvertisementTemplate.cloneNode(true);
   const avatar = advertisementElement.querySelector('.popup__avatar');
@@ -109,29 +109,29 @@ const renderAdvertisements = (author, offer, location) => {
   removeAllChilds(photosList);
   removeAllChilds(featuresList);
 
-  avatar.src = author.avatar;
-  title.textContent = offer.title;
-  address.textContent = location.lat.toFixed(5) + ',' + location.lng.toFixed(5);
-  price.textContent = offer.price + ' ₽/ночь';
-  type.textContent = getRoomType(offer.type);
-  capacity.textContent = offer.rooms + getRoomsSignature(offer.rooms) + ' для ' + offer.guests + getGuestsSignature(offer.guests);
-  time.textContent = 'Заезд после ' + offer.checkin + ', выезд до ' + offer.checkout;
-  description.textContent = offer.description;
-  getPhotosFragment(offer.photos);
+  avatar.src = advertisement.author.avatar;
+  title.textContent = advertisement.offer.title;
+  address.textContent = advertisement.location.lat.toFixed(5) + ',' + advertisement.location.lng.toFixed(5);
+  price.textContent = advertisement.offer.price + ' ₽/ночь';
+  type.textContent = getRoomType(advertisement.offer.type);
+  capacity.textContent = advertisement.offer.rooms + getRoomsSignature(advertisement.offer.rooms) + ' для ' + advertisement.offer.guests + getGuestsSignature(advertisement.offer.guests);
+  time.textContent = 'Заезд после ' + advertisement.offer.checkin + ', выезд до ' + advertisement.offer.checkout;
+  description.textContent = advertisement.offer.description;
+  getPhotosFragment(advertisement.offer.photos);
   photosList.appendChild(photosFragment);
-  getFeaturesFragment(offer.features);
+  getFeaturesFragment(advertisement.offer.features);
   featuresList.appendChild(featuresFragment);
 
-  hideEmptyElement(author.avatar, avatar);
-  hideEmptyElement(offer.title, title);
-  hideEmptyElement(offer.address, address);
-  hideEmptyElement(offer.price, price);
-  hideEmptyElement(offer.type, type);
-  hideEmptyElement(offer.rooms, capacity);
-  hideEmptyElement(offer.guests, capacity);
-  hideEmptyElement(offer.checkin, time);
-  hideEmptyElement(offer.checkout, time);
-  hideEmptyElement(offer.description, description);
+  hideEmptyElement(advertisement.author.avatar, avatar);
+  hideEmptyElement(advertisement.offer.title, title);
+  hideEmptyElement(advertisement.offer.address, address);
+  hideEmptyElement(advertisement.offer.price, price);
+  hideEmptyElement(advertisement.offer.type, type);
+  hideEmptyElement(advertisement.offer.rooms, capacity);
+  hideEmptyElement(advertisement.offer.guests, capacity);
+  hideEmptyElement(advertisement.offer.checkin, time);
+  hideEmptyElement(advertisement.offer.checkout, time);
+  hideEmptyElement(advertisement.offer.description, description);
   hideEmptyElement(photosList.children, photosList);
   hideEmptyElement(featuresList.children, featuresList);
 

@@ -6,6 +6,7 @@ const mapFilters = document.querySelector('.map__filters');
 const addressField = document.querySelector('#address');
 addressField.value = '35.68170, 139.75388';
 addressField.readOnly = true;
+const ADVERTISEMENT_COUNT = 10;
 
 adForm.classList.add('ad-form--disabled');
 mapFilters.classList.add('map__filters--disabled');
@@ -26,6 +27,7 @@ disableForm(adForm);
 disableForm(mapFilters);
 
 /* global L:readonly */
+const pointsLayer = new L.LayerGroup();
 const map = L.map('map-canvas')
   .on('load', () => {
     enableForm(adForm);
@@ -73,8 +75,9 @@ mainPinMarker.on('moveend', (evt) => {
 });
 
 const getPoints = (data) => {
+  pointsLayer.clearLayers();
 
-  data.forEach((advertisement) => {
+  data.slice(0, ADVERTISEMENT_COUNT).forEach((advertisement) => {
     const marker = L.marker(
       {
         lat: advertisement.location.lat,
@@ -85,13 +88,14 @@ const getPoints = (data) => {
       },
     );
     marker
-      .addTo(map)
       .bindPopup(
-        renderAdvertisements(advertisement.author, advertisement.offer, advertisement.location),
+        renderAdvertisements(advertisement),
         {
           keepInView: true,
         },
       );
+    pointsLayer.addLayer(marker);
   });
+  pointsLayer.addTo(map);
 };
 export {getPoints, mainPinMarker, addressField};
