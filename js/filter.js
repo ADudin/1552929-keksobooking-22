@@ -4,11 +4,10 @@ const housingType = mapFilters.querySelector('#housing-type');
 
 const typeFilter = (advertisements) => {
   housingType.addEventListener('change', () => {
-    let sameHousingTypeAdvertisements = advertisements;
     if (housingType.value === 'any') {
-      return getPoints(sameHousingTypeAdvertisements);
+      return getPoints(advertisements);
     }
-    sameHousingTypeAdvertisements = advertisements.filter(advertisement => advertisement.offer.type === housingType.value);
+    const sameHousingTypeAdvertisements = advertisements.filter(advertisement => advertisement.offer.type === housingType.value);
     return getPoints(sameHousingTypeAdvertisements);
   });
 };
