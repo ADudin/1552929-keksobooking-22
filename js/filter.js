@@ -1,9 +1,12 @@
 import {getPoints, mapFilters} from './map.js';
 
+/* global _:readonly */
 const housingType = mapFilters.querySelector('#housing-type');
 const housingRooms = mapFilters.querySelector('#housing-rooms');
 const housingGuests = mapFilters.querySelector('#housing-guests');
 const housingPrice = mapFilters.querySelector('#housing-price');
+
+const RERENDER_DELAY = 500;
 
 const getTypeFilter = (advertisement) => {
   if (housingType.value === 'any' || advertisement.offer.type === housingType.value) {
@@ -49,12 +52,12 @@ const getFeaturesFilter = (advertisement) => {
 };
 
 const getFilteredAdvertisements = (advertisements) => {
-  mapFilters.addEventListener('change', () => {
+  mapFilters.addEventListener('change', _.debounce(() => {
     const filteredAdvertisents = advertisements.filter((advertisement) => {
       return getTypeFilter(advertisement) && getRoomsFilter(advertisement) && getGuestsFilter(advertisement) && getPriceFilter(advertisement) && getFeaturesFilter(advertisement);
     });
     return getPoints(filteredAdvertisents);
-  });
+  }, RERENDER_DELAY));
 }
 
 export {getFilteredAdvertisements};
