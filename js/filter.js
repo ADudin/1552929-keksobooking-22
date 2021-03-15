@@ -9,24 +9,15 @@ const housingPrice = mapFilters.querySelector('#housing-price');
 const RERENDER_DELAY = 500;
 
 const getTypeFilter = (advertisement) => {
-  if (housingType.value === 'any' || advertisement.offer.type === housingType.value) {
-    return true;
-  }
-  return false;
+  return (housingType.value === 'any' || advertisement.offer.type === housingType.value);
 };
 
 const getRoomsFilter = (advertisement) => {
-  if (housingRooms.value === 'any' || Number(advertisement.offer.rooms) === Number(housingRooms.value)) {
-    return true;
-  }
-  return false;
+  return (housingRooms.value === 'any' || Number(advertisement.offer.rooms) === Number(housingRooms.value));
 };
 
 const getGuestsFilter = (advertisement) => {
-  if (housingGuests.value === 'any' || Number(advertisement.offer.rooms) === Number(housingGuests.value)) {
-    return true;
-  }
-  return false;
+  return (housingGuests.value === 'any' || Number(advertisement.offer.rooms) === Number(housingGuests.value));
 };
 
 const getPriceFilter = (advertisement) => {
@@ -51,12 +42,27 @@ const getFeaturesFilter = (advertisement) => {
   return featuresList.every((item) => advertisement.offer.features.includes(item));
 };
 
+const getGeneralFilter = (advertisements) => {
+
+  const filteredAdvertisements = advertisements.filter((advertisement) => {
+
+    return getTypeFilter(advertisement) &&
+      getRoomsFilter(advertisement) &&
+      getGuestsFilter(advertisement) &&
+      getPriceFilter(advertisement) &&
+      getFeaturesFilter(advertisement);
+
+  });
+
+  return filteredAdvertisements;
+};
+
 const getFilteredAdvertisements = (advertisements) => {
+
   mapFilters.addEventListener('change', _.debounce(() => {
-    const filteredAdvertisents = advertisements.filter((advertisement) => {
-      return getTypeFilter(advertisement) && getRoomsFilter(advertisement) && getGuestsFilter(advertisement) && getPriceFilter(advertisement) && getFeaturesFilter(advertisement);
-    });
-    return getPoints(filteredAdvertisents);
+
+    return getPoints(getGeneralFilter(advertisements));
+
   }, RERENDER_DELAY));
 }
 
