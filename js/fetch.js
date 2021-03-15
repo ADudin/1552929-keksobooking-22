@@ -68,8 +68,9 @@ const sendData = (onSuccess, body) => {
     if (response.ok) {
       onSuccess();
       renderMessage(successTemplate);
+    } else {
+      renderMessage(errorTemplate);
     }
-    renderMessage(errorTemplate);
   })
     .catch(() => {
       renderMessage(errorTemplate);
