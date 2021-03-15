@@ -1,6 +1,6 @@
 import {getPoints, mapFilters, disableForm} from './map.js';
 import {renderMessage} from './popup.js';
-import {typeFilter} from './filter.js';
+import {getFilteredAdvertisements} from './filter.js';
 
 const successTemplate = document.querySelector('#success').content.querySelector('.success');
 const errorTemplate = document.querySelector('#error').content.querySelector('.error');
@@ -53,7 +53,7 @@ const createFetch = (onSuccess) => {
 const createAdvertisements = () => createFetch(
   (advertisements) => {
     getPoints(advertisements);
-    typeFilter(advertisements);
+    getFilteredAdvertisements(advertisements);
   },
 );
 
@@ -68,8 +68,9 @@ const sendData = (onSuccess, body) => {
     if (response.ok) {
       onSuccess();
       renderMessage(successTemplate);
+    } else {
+      renderMessage(errorTemplate);
     }
-    renderMessage(errorTemplate);
   })
     .catch(() => {
       renderMessage(errorTemplate);
