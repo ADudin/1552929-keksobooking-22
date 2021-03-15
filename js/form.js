@@ -2,14 +2,14 @@ import {sendData} from './fetch.js';
 import {mainPinMarker, addressField} from './map.js';
 import {clearPreview} from './photo.js';
 
-const type = document.querySelector('#type');
-const price = document.querySelector('#price');
-const timeIn = document.querySelector('#timein');
-const timeOut = document.querySelector('#timeout');
-const title = document.querySelector('#title');
-const roomNumber = document.querySelector('#room_number');
-const capacity = document.querySelector('#capacity');
 const userForm = document.querySelector('.ad-form');
+const type = userForm.querySelector('#type');
+const price = userForm.querySelector('#price');
+const timeIn = userForm.querySelector('#timein');
+const timeOut = userForm.querySelector('#timeout');
+const title = userForm.querySelector('#title');
+const roomNumber = userForm.querySelector('#room_number');
+const capacity = userForm.querySelector('#capacity');
 
 type.addEventListener('change', () => {
   switch (type.value) {
