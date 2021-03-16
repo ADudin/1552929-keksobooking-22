@@ -22,15 +22,14 @@ const clearPreview = () => {
 };
 
 const uploadImage = (loader, preview) => {
-  const file = loader;
-  const typeMatch = FILE_TYPES.includes(file.type);
+  const typeMatch = FILE_TYPES.includes(loader.type);
 
   if (typeMatch) {
     const reader = new FileReader();
     reader.addEventListener('load', () => {
       preview.src = reader.result;
     });
-    reader.readAsDataURL(file);
+    reader.readAsDataURL(loader);
   }
 };
 
