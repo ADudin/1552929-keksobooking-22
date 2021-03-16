@@ -36,12 +36,14 @@ const uploadImage = (loader, preview) => {
 userAvatarChooser.addEventListener('change', () => {
   const userAvatar = userAvatarChooser.files[0];
   const avatarPreview = userAvatarPreview.children[0];
+
   uploadImage(userAvatar, avatarPreview);
 });
 userHousingChooser.addEventListener('change', () => {
   userHousingPreview.appendChild(createImage('Фотография жилья', 70, 70));
   const housingPhoto = userHousingChooser.files[0];
   const photoPreview = userHousingPreview.children[0];
+
   uploadImage(housingPhoto, photoPreview);
 });
 
