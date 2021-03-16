@@ -22,27 +22,24 @@ const clearPreview = () => {
 };
 
 const uploadImage = (loader, preview) => {
-  const file = loader.files[0];
+  const file = loader;
   const typeMatch = FILE_TYPES.includes(file.type);
-
-  if (preview.children.length === 0 && typeMatch) {
-    preview.appendChild(createImage('Фотография жилья', 70, 70));
-  }
 
   if (typeMatch) {
     const reader = new FileReader();
     reader.addEventListener('load', () => {
-      preview.children[0].src = reader.result;
+      preview.src = reader.result;
     });
     reader.readAsDataURL(file);
   }
 };
 
 userAvatarChooser.addEventListener('change', () => {
-  uploadImage(userAvatarChooser, userAvatarPreview);
+  uploadImage(userAvatarChooser.files[0], userAvatarPreview.children[0]);
 });
 userHousingChooser.addEventListener('change', () => {
-  uploadImage(userHousingChooser, userHousingPreview);
+  userHousingPreview.appendChild(createImage('Фотография жилья', 70, 70));
+  uploadImage(userHousingChooser.files[0], userHousingPreview.children[0]);
 });
 
 export {clearPreview};
