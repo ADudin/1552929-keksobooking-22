@@ -34,11 +34,15 @@ const uploadImage = (loader, preview) => {
 };
 
 userAvatarChooser.addEventListener('change', () => {
-  uploadImage(userAvatarChooser.files[0], userAvatarPreview.children[0]);
+  const userAvatar = userAvatarChooser.files[0];
+  const avatarPreview = userAvatarPreview.children[0];
+  uploadImage(userAvatar, avatarPreview);
 });
 userHousingChooser.addEventListener('change', () => {
   userHousingPreview.appendChild(createImage('Фотография жилья', 70, 70));
-  uploadImage(userHousingChooser.files[0], userHousingPreview.children[0]);
+  const housingPhoto = userHousingChooser.files[0];
+  const photoPreview = userHousingPreview.children[0];
+  uploadImage(housingPhoto, photoPreview);
 });
 
 export {clearPreview};
