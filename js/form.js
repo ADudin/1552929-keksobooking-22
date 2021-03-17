@@ -101,8 +101,7 @@ const resetFormData = () => {
   addressField.value = '35.68170, 139.75388';
 };
 
-userForm.addEventListener('reset', (evt) => {
-  evt.preventDefault();
+userForm.addEventListener('reset', () => {
   resetFormData();
 });
 
