@@ -1,5 +1,6 @@
 import {sendData} from './fetch.js';
 import {mainPinMarker, addressField} from './map.js';
+import {clearPreview} from './photo.js';
 
 const userForm = document.querySelector('.ad-form');
 const title = userForm.querySelector('#title');
@@ -92,6 +93,7 @@ capacity.addEventListener('change', synchroniseRoomCapacity);
 
 const resetFormData = () => {
   userForm.reset();
+  clearPreview();
   mainPinMarker.setLatLng({
     lat: 35.68170,
     lng: 139.75388,
