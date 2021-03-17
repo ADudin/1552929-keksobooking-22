@@ -10,6 +10,7 @@ const timeOut = userForm.querySelector('#timeout');
 const title = userForm.querySelector('#title');
 const roomNumber = userForm.querySelector('#room_number');
 const capacity = userForm.querySelector('#capacity');
+const resetUserForm = userForm.querySelector('.ad-form__reset');
 
 type.addEventListener('change', () => {
   switch (type.value) {
@@ -101,7 +102,8 @@ const resetFormData = () => {
   addressField.value = '35.68170, 139.75388';
 };
 
-userForm.addEventListener('reset', () => {
+resetUserForm.addEventListener('click', (evt) => {
+  evt.preventDefault();
   resetFormData();
 });
 
