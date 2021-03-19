@@ -5,6 +5,9 @@ const featuresFragment = document.createDocumentFragment();
 const photosFragment = document.createDocumentFragment();
 
 const mainContent = document.querySelector('main');
+const successTemplate = document.querySelector('#success').content.querySelector('.success');
+const errorTemplate = document.querySelector('#error').content.querySelector('.error');
+
 
 const getRoomType = (type) => {
   if (type === 'palace') {
@@ -141,9 +144,15 @@ const renderAdvertisements = (advertisement) => {
 const renderMessage = (template) => {
   const message = template.cloneNode(true);
   mainContent.appendChild(message);
+  const closePopupButton = message.querySelector('.error__button');
 
   const closeMessage = () => {
     mainContent.removeChild(message);
+
+    if (template === errorTemplate) {
+      closePopupButton.removeEventListener('click', closeMessage);
+    }
+
     document.removeEventListener('keydown', onEscKeydown);
     document.removeEventListener('click', closeMessage);
   };
@@ -155,7 +164,11 @@ const renderMessage = (template) => {
     }
   };
 
+  if (template === errorTemplate) {
+    closePopupButton.addEventListener('click', closeMessage);
+  }
+
   document.addEventListener('keydown', onEscKeydown);
   document.addEventListener('click', closeMessage);
 };
-export {renderAdvertisements, renderMessage};
+export {renderAdvertisements, renderMessage, successTemplate, errorTemplate};

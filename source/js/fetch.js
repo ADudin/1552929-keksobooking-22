@@ -1,9 +1,7 @@
 import {getPoints, mapFilters, disableForm} from './map.js';
-import {renderMessage} from './popup.js';
+import {renderMessage, successTemplate, errorTemplate} from './popup.js';
 import {getFilteredAdvertisements} from './filter.js';
 
-const successTemplate = document.querySelector('#success').content.querySelector('.success');
-const errorTemplate = document.querySelector('#error').content.querySelector('.error');
 const ALERT_SHOW_TIME = 10000;
 
 const showAlert = (message) => {
