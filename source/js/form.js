@@ -10,6 +10,7 @@ const type = userForm.querySelector('#type');
 const price = userForm.querySelector('#price');
 const timeIn = userForm.querySelector('#timein');
 const timeOut = userForm.querySelector('#timeout');
+const resetUserForm = userForm.querySelector('.ad-form__reset');
 
 type.addEventListener('change', () => {
   switch (type.value) {
@@ -101,7 +102,7 @@ const resetFormData = () => {
   addressField.value = '35.68170, 139.75388';
 };
 
-userForm.addEventListener('reset', (evt) => {
+resetUserForm.addEventListener('click', (evt) => {
   evt.preventDefault();
   resetFormData();
 });
