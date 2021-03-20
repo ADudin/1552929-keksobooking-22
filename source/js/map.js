@@ -4,9 +4,17 @@ import {renderAdvertisements} from './popup.js';
 const adForm = document.querySelector('.ad-form');
 const mapFilters = document.querySelector('.map__filters');
 const addressField = document.querySelector('#address');
-addressField.value = '35.68170, 139.75388';
-addressField.readOnly = true;
+const DEFAULT_LATITUDE = 35.68170;
+const DEFAULT_LONGITUDE = 139.75388;
+const defaultAddress = DEFAULT_LATITUDE + ', ' + DEFAULT_LONGITUDE;
+const PIN_ICON_WIDTH = 52;
+const PIN_ICON_HEIGHT = 52;
+const MAP_ZOOM_LEVEL = 11.7;
+const ROUNDING_OF_COORDINATES_VALUE = 5;
 const ADVERTISEMENT_COUNT = 10;
+
+addressField.value = defaultAddress;
+addressField.readOnly = true;
 
 adForm.classList.add('ad-form--disabled');
 mapFilters.classList.add('map__filters--disabled');
@@ -36,9 +44,9 @@ const map = L.map('map-canvas')
     mapFilters.classList.remove('map__filters--disabled');
   })
   .setView({
-    lat: 35.68170,
-    lng: 139.75388,
-  }, 11.7);
+    lat: DEFAULT_LATITUDE,
+    lng: DEFAULT_LONGITUDE,
+  }, MAP_ZOOM_LEVEL);
 L.tileLayer(
   'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
   {
@@ -48,20 +56,20 @@ L.tileLayer(
 
 const mainPinIcon = L.icon({
   iconUrl: 'img/main-pin.svg',
-  iconSize: [52, 52],
-  iconanchor: [26, 52],
+  iconSize: [PIN_ICON_WIDTH, PIN_ICON_HEIGHT],
+  iconanchor: [PIN_ICON_WIDTH / 2, PIN_ICON_HEIGHT],
 });
 
 const pinIcon = L.icon({
   iconUrl: 'img/pin.svg',
-  iconSize: [52,52],
-  iconanchor: [26, 52],
+  iconSize: [PIN_ICON_WIDTH, PIN_ICON_HEIGHT],
+  iconanchor: [PIN_ICON_WIDTH / 2, PIN_ICON_HEIGHT],
 });
 
 const mainPinMarker = L.marker(
   {
-    lat: 35.68170,
-    lng: 139.75388,
+    lat: DEFAULT_LATITUDE,
+    lng: DEFAULT_LONGITUDE,
   },
   {
     draggable: true,
@@ -71,7 +79,7 @@ const mainPinMarker = L.marker(
 mainPinMarker.addTo(map);
 
 mainPinMarker.on('moveend', (evt) => {
-  addressField.value = evt.target.getLatLng().lat.toFixed(5) + ', ' + evt.target.getLatLng().lng.toFixed(5);
+  addressField.value = evt.target.getLatLng().lat.toFixed(ROUNDING_OF_COORDINATES_VALUE) + ', ' + evt.target.getLatLng().lng.toFixed(ROUNDING_OF_COORDINATES_VALUE);
 });
 
 const getPoints = (data) => {
@@ -98,4 +106,13 @@ const getPoints = (data) => {
   });
   pointsLayer.addTo(map);
 };
-export {getPoints, mainPinMarker, addressField, mapFilters, disableForm};
+export {
+  getPoints,
+  mainPinMarker,
+  addressField,
+  DEFAULT_LATITUDE,
+  DEFAULT_LONGITUDE,
+  defaultAddress,
+  mapFilters,
+  disableForm
+};

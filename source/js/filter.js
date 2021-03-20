@@ -6,6 +6,8 @@ const housingRooms = mapFilters.querySelector('#housing-rooms');
 const housingGuests = mapFilters.querySelector('#housing-guests');
 const housingPrice = mapFilters.querySelector('#housing-price');
 
+const FILTER_LOW_PRICE = 10000;
+const FILTER_MIDDLE_PRICE = 50000;
 const RERENDER_DELAY = 500;
 
 const getTypeFilter = (advertisement) => {
@@ -24,13 +26,13 @@ const getPriceFilter = (advertisement) => {
   if (housingPrice.value === 'any') {
     return true;
   }
-  if (housingPrice.value === 'middle' && 10000 < advertisement.offer.price && 50000 >= advertisement.offer.price) {
+  if (housingPrice.value === 'middle' && FILTER_LOW_PRICE <= advertisement.offer.price && FILTER_MIDDLE_PRICE >= advertisement.offer.price) {
     return true;
   }
-  if (housingPrice.value === 'low' && 10000 >= advertisement.offer.price) {
+  if (housingPrice.value === 'low' && FILTER_LOW_PRICE > advertisement.offer.price) {
     return true;
   }
-  if (housingPrice.value === 'high' && 50000 <= advertisement.offer.price) {
+  if (housingPrice.value === 'high' && FILTER_MIDDLE_PRICE < advertisement.offer.price) {
     return true;
   }
   return false;

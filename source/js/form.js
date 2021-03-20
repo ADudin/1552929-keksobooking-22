@@ -1,5 +1,5 @@
-import {sendData} from './fetch.js';
-import {mainPinMarker, addressField} from './map.js';
+import {sendData, createAdvertisements} from './fetch.js';
+import {mainPinMarker, DEFAULT_LATITUDE, DEFAULT_LONGITUDE, addressField, defaultAddress, mapFilters} from './map.js';
 import {clearPreview} from './photo.js';
 
 const userForm = document.querySelector('.ad-form');
@@ -12,25 +12,52 @@ const timeIn = userForm.querySelector('#timein');
 const timeOut = userForm.querySelector('#timeout');
 const resetUserForm = userForm.querySelector('.ad-form__reset');
 
+const MIN_PRICE_MAP = {
+  bungalow: 0,
+  flat: 1000,
+  house: 5000,
+  palace: 10000,
+}
+
+const MAX_ROOMS_QUANTITY_EXCESS_VALUE = 100;
+const GEUSTS_ABSENCE_VALUE = 0;
+
 type.addEventListener('change', () => {
   switch (type.value) {
     case 'bungalow':
-      price.min = 0;
-      price.placeholder = '0';
+      price.min = MIN_PRICE_MAP[type.value];
+      price.placeholder = MIN_PRICE_MAP[type.value];
+      checkPriceValidity();
       break;
     case 'flat':
-      price.min = 1000;
-      price.placeholder = '1000';
+      price.min = MIN_PRICE_MAP[type.value];
+      price.placeholder = MIN_PRICE_MAP[type.value];
+      checkPriceValidity();
       break;
     case 'house':
-      price.min = 5000;
-      price.placeholder = '5000';
+      price.min = MIN_PRICE_MAP[type.value];
+      price.placeholder = MIN_PRICE_MAP[type.value];
+      checkPriceValidity();
       break;
     case 'palace':
-      price.min = 10000;
-      price.placeholder = '10000';
+      price.min = MIN_PRICE_MAP[type.value];
+      price.placeholder = MIN_PRICE_MAP[type.value];
+      checkPriceValidity();
       break;
   }
+});
+
+const checkPriceValidity = () => {
+  if (price.value < MIN_PRICE_MAP[type.value]) {
+    price.setCustomValidity('Минимальная цена данного типа размещения ' + MIN_PRICE_MAP[type.value]);
+  } else {
+    price.setCustomValidity('');
+  }
+  price.reportValidity();
+};
+
+price.addEventListener('change', () => {
+  checkPriceValidity();
 });
 
 timeIn.addEventListener('change', () => {
@@ -75,10 +102,10 @@ title.addEventListener('input', () => {
 });
 
 const synchroniseRoomCapacity = () => {
-  if (Number(roomNumber.value) === 100 && Number(capacity.value) !== 0) {
+  if (Number(roomNumber.value) === MAX_ROOMS_QUANTITY_EXCESS_VALUE && Number(capacity.value) !== GEUSTS_ABSENCE_VALUE) {
     capacity.setCustomValidity('Не верно указано количество гостей!');
   }
-  else if (Number(capacity.value) === 0 && Number(roomNumber.value) !== 100) {
+  else if (Number(capacity.value) === GEUSTS_ABSENCE_VALUE && Number(roomNumber.value) !== MAX_ROOMS_QUANTITY_EXCESS_VALUE) {
     capacity.setCustomValidity('Не верно указано количество гостей!');
   }
   else if (Number(roomNumber.value) < Number(capacity.value)) {
@@ -94,12 +121,14 @@ capacity.addEventListener('change', synchroniseRoomCapacity);
 
 const resetFormData = () => {
   userForm.reset();
+  mapFilters.reset();
   clearPreview();
+  createAdvertisements();
   mainPinMarker.setLatLng({
-    lat: 35.68170,
-    lng: 139.75388,
+    lat: DEFAULT_LATITUDE,
+    lng: DEFAULT_LONGITUDE,
   });
-  addressField.value = '35.68170, 139.75388';
+  addressField.value = defaultAddress;
 };
 
 resetUserForm.addEventListener('click', (evt) => {

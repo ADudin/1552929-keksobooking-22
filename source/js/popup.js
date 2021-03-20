@@ -146,29 +146,29 @@ const renderMessage = (template) => {
   mainContent.appendChild(message);
   const closePopupButton = message.querySelector('.error__button');
 
-  const closeMessage = () => {
+  const closeMessageHandler = () => {
     mainContent.removeChild(message);
 
     if (template === errorTemplate) {
-      closePopupButton.removeEventListener('click', closeMessage);
+      closePopupButton.removeEventListener('click', closeMessageHandler);
     }
 
     document.removeEventListener('keydown', onEscKeydown);
-    document.removeEventListener('click', closeMessage);
+    document.removeEventListener('click', closeMessageHandler);
   };
 
   const onEscKeydown = (evt) => {
     if (isEscEvent(evt)) {
       evt.preventDefault();
-      closeMessage();
+      closeMessageHandler();
     }
   };
 
   if (template === errorTemplate) {
-    closePopupButton.addEventListener('click', closeMessage);
+    closePopupButton.addEventListener('click', closeMessageHandler);
   }
 
   document.addEventListener('keydown', onEscKeydown);
-  document.addEventListener('click', closeMessage);
+  document.addEventListener('click', closeMessageHandler);
 };
 export {renderAdvertisements, renderMessage, successTemplate, errorTemplate};
